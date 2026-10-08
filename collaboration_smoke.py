@@ -42,6 +42,12 @@ def driver():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--window-size=1440,1100")
 
+    # Use the Chrome installed by setup-chrome in GitHub Actions.
+    # Local runs continue using the normal Chrome installation.
+    chrome_bin = os.environ.get("CHROME_BIN")
+    if chrome_bin:
+        options.binary_location = chrome_bin
+
     browser = webdriver.Chrome(options=options)
     browser.set_page_load_timeout(60)
     yield browser
