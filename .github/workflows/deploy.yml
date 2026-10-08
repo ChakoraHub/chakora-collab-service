@@ -87,7 +87,7 @@ jobs:
         uses: browser-actions/setup-chrome@v2
         with:
           chrome-version: stable
-          install-chromedriver: false
+          install-chromedriver: true
 
       - name: Install Selenium test dependencies
         run: |
