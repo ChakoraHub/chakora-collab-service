@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.chrome.service import Service
 
 # ============================================================
 # Collaboration smoke tests (read-only)
@@ -48,7 +48,10 @@ def driver():
     if chrome_bin:
         options.binary_location = chrome_bin
 
-    browser = webdriver.Chrome(options=options)
+    driver_path = os.environ.get("CHROMEDRIVER_PATH")
+    service = Service(driver_path) if driver_path else Service()
+
+    browser = webdriver.Chrome(service=service, options=options)
     browser.set_page_load_timeout(60)
     yield browser
     browser.quit()

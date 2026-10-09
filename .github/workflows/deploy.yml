@@ -83,7 +83,8 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Install Chrome
+      - name: Install Chrome and ChromeDriver
+        id: setup-chrome
         uses: browser-actions/setup-chrome@v2
         with:
           chrome-version: stable
@@ -112,6 +113,8 @@ jobs:
       - name: Run Selenium smoke tests
         env:
           CHAKORAHUB_BASE_URL: https://www.chakorahub.com
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+          CHROMEDRIVER_PATH: ${{ steps.setup-chrome.outputs.chromedriver-path }}
           EXPECT_MAINTENANCE_NOTICE: ${{ inputs.bootstrap == true && 'false' || 'true' }}
         run: |
           pytest -v collaboration_smoke.py --junitxml=selenium-results.xml
